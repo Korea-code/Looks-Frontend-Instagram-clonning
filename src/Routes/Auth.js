@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Input from "../Components/Input";
 import Botton from "../Components/Button";
 import Header from "../Components/Header";
+import useInput from "../Hooks/useInput";
 
 const Wrapper = styled.div`
   min-height: 80vh;
@@ -27,6 +28,7 @@ const Link = styled.span`
   cursor: pointer;
 `;
 const Form = styled(Box)`
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
   justify-contents: center;
@@ -38,26 +40,39 @@ const Form = styled(Box)`
 export default () => {
   const [action, setAction] = useState("logIn");
 
+  //set default value for each input
+  const loginUsername = useInput("");
+  const loginPassword = useInput("");
+  const email = useInput("");
+  const firstName = useInput("");
+  const lastName = useInput("");
+  const username = useInput("");
+  const password = useInput("");
+
   return (
     <Wrapper>
       <Form>
         <Header text={"LUCKLE"} />
         {action === "logIn" ? (
-          <>
-            <Input placeholder={"Username"} />
-            <Input placeholder={"Password"} />
-            <Botton text={"LogIn"} />
-          </>
+          <form>
+            <Input placeholder={"Username"} {...loginUsername} />
+            <Input
+              placeholder={"Password"}
+              {...loginPassword}
+              type={"password"}
+            />
+            <Botton text={"LogIn"} type={"submit"} />
+          </form>
         ) : (
-          <>
-            <Input placeholder={"Email"} />
-            <Input placeholder={"First name"} />
-            <Input placeholder={"Last name"} />
-            <Input placeholder={"Username"} />
-            <Input placeholder={"Password"} />
+          <form>
+            <Input placeholder={"Email"} {...email} type={"email"} />
+            <Input placeholder={"First name"} {...firstName} />
+            <Input placeholder={"Last name"} {...lastName} />
+            <Input placeholder={"Username"} {...username} />
+            <Input placeholder={"Password"} {...password} type={"password"} />
 
-            <Botton text={"Sign Up"} />
-          </>
+            <Botton text={"Sign Up"} type={"submit"} />
+          </form>
         )}
       </Form>
       <AskingBox>

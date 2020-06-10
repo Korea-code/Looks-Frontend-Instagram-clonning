@@ -12,11 +12,30 @@ const Container = styled.input`
   &:not(:last-child) {
     margin-bottom: 6px;
   }
+  width: 100%;
 `;
 
-const Input = ({ placeholder }) => <Container placeholder={placeholder} />;
+const Input = ({
+  placeholder,
+  required = true,
+  value,
+  onChange,
+  type = "text"
+}) => (
+  <Container
+    placeholder={placeholder}
+    required={required}
+    value={value}
+    onChange={onChange}
+    type={type}
+  />
+);
 
 Input.propTypes = {
-  Placeholder: PropTypes.string.isRequired
+  Placeholder: PropTypes.string.isRequired,
+  required: PropTypes.bool,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  type: PropTypes.string
 };
 export default Input;
