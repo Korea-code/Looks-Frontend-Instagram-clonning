@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Input from "../../Components/Input";
 import Botton from "../../Components/Button";
-import Header from "../../Components/Header";
+import Logo from "../../Components/Logo";
 
 const Wrapper = styled.div`
   min-height: 80vh;
@@ -44,18 +44,20 @@ export default ({
   firstName,
   lastName,
   email,
-  onLogin
+  onSubmit,
+  secret
 }) => (
   <Wrapper>
     <Form>
-      <Header text={"LUCKLE"} />
-      {action === "logIn" ? (
-        <form onSubmit={onLogin}>
+      <Logo text={"LUCKLE"} />
+      {action === "logIn" && (
+        <form onSubmit={onSubmit}>
           <Input placeholder={"Email"} {...loginEmail} type={"email"} />
           <Botton text={"LogIn"} type={"submit"} />
         </form>
-      ) : (
-        <form onSubmit={onLogin}>
+      )}
+      {action === "signUp" && (
+        <form onSubmit={onSubmit}>
           <Input placeholder={"Email"} {...email} type={"email"} />
           <Input placeholder={"Username"} {...username} />
           <Input placeholder={"First name"} {...firstName} />
@@ -64,19 +66,27 @@ export default ({
           <Botton text={"Sign Up"} type={"submit"} />
         </form>
       )}
-    </Form>
-    <AskingBox>
-      {action === "logIn" ? (
-        <>
-          Don't have an account?{" "}
-          <Link onClick={() => setAction("signUp")}>Sign Up</Link>
-        </>
-      ) : (
-        <>
-          Have an account?{" "}
-          <Link onClick={() => setAction("logIn")}>Log In</Link>
-        </>
+      {action === "confirm" && (
+        <form onSubmit={onSubmit}>
+          <Input placeholder={"Paste your secret"} required {...secret} />
+          <Botton text={"Confirm"} type={"submit"} />
+        </form>
       )}
-    </AskingBox>
+    </Form>
+    {action !== "confirm" && (
+      <AskingBox>
+        {action === "logIn" ? (
+          <>
+            Don't have an account?{" "}
+            <Link onClick={() => setAction("signUp")}>Sign Up</Link>
+          </>
+        ) : (
+          <>
+            Have an account?{" "}
+            <Link onClick={() => setAction("logIn")}>Log In</Link>
+          </>
+        )}
+      </AskingBox>
+    )}
   </Wrapper>
 );

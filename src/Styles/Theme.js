@@ -17,5 +17,6 @@ export default {
   whiteBox: ` border-radius: ${BORDER_RADIUS};
               border: ${BOX_BORDER};
               background-color: white;
-              `
+              `,
+  logoFont: `"Segoe UI", Tahoma, Geneva, Verdana, sans-serif`
 };
