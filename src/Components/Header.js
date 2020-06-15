@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-
+import { Link, withRouter } from "react-router-dom";
+import useInput from "../Hooks/useInput";
 import { FeedIcon, DMIcon, ExploreIcon, NotificationIcon } from "./Icons";
-import Feed from "../Routes/Feed";
 
 const ICON_SIZE = 22;
 
@@ -83,39 +82,46 @@ const Profile = styled.div`
   border: 2px solid ${props => props.theme.blackColor};
   margin-bottom: 3px;
 `;
-const Header = () => (
-  <Container>
-    <Link to="/">
-      <Logo>LUCKLE</Logo>
-    </Link>
-    <SearchBar>
-      <IconSearch
-        xmlns="http://www.w3.org/2000/svg"
-        width="10"
-        height="10"
-        viewBox="0 0 24 24"
-      >
-        <path d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
-      </IconSearch>
-      <Search placeholder="Search"></Search>
-    </SearchBar>
-    <Icons>
-      <IconFeed to="/">
-        <FeedIcon size={ICON_SIZE} />
-      </IconFeed>
-      <IconDM>
-        <DMIcon size={ICON_SIZE} />
-      </IconDM>
-      <IconExplore to="/explore">
-        <ExploreIcon size={ICON_SIZE} />
-      </IconExplore>
-      <IconNotification to="/notification">
-        <NotificationIcon size={ICON_SIZE} />
-      </IconNotification>
-      <IconProfile to="/profile">
-        <Profile />
-      </IconProfile>
-    </Icons>
-  </Container>
-);
-export default Header;
+const Header = ({ history }) => {
+  const search = useInput("");
+  const onSearchSubmit = e => {
+    e.preventDefault();
+    history.push(`/search?term=${search.value}`);
+  };
+  return (
+    <Container>
+      <Link to="/">
+        <Logo>LUCKLE</Logo>
+      </Link>
+      <SearchBar onSubmit={onSearchSubmit}>
+        <IconSearch
+          xmlns="http://www.w3.org/2000/svg"
+          width="10"
+          height="10"
+          viewBox="0 0 24 24"
+        >
+          <path d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
+        </IconSearch>
+        <Search {...search} placeholder="Search"></Search>
+      </SearchBar>
+      <Icons>
+        <IconFeed to="/">
+          <FeedIcon size={ICON_SIZE} />
+        </IconFeed>
+        <IconDM>
+          <DMIcon size={ICON_SIZE} />
+        </IconDM>
+        <IconExplore to="/explore">
+          <ExploreIcon size={ICON_SIZE} />
+        </IconExplore>
+        <IconNotification to="/notification">
+          <NotificationIcon size={ICON_SIZE} />
+        </IconNotification>
+        <IconProfile to="/profile">
+          <Profile />
+        </IconProfile>
+      </Icons>
+    </Container>
+  );
+};
+export default withRouter(Header);
