@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
+import { gql } from "apollo-boost";
+import { useQuery } from "react-apollo-hooks";
 import useInput from "../Hooks/useInput";
 import { FeedIcon, DMIcon, ExploreIcon, NotificationIcon } from "./Icons";
 
@@ -82,8 +84,18 @@ const Profile = styled.div`
   border: 2px solid ${props => props.theme.blackColor};
   margin-bottom: 3px;
 `;
+
+const ME = gql`
+  query {
+    myProfile {
+      username
+    }
+  }
+`;
+
 const Header = ({ history }) => {
   const search = useInput("");
+  const { data } = useQuery(ME);
   const onSearchSubmit = e => {
     e.preventDefault();
     history.push(`/search?term=${search.value}`);
@@ -117,9 +129,15 @@ const Header = ({ history }) => {
         <IconNotification to="/notification">
           <NotificationIcon size={ICON_SIZE} />
         </IconNotification>
-        <IconProfile to="/profile">
-          <Profile />
-        </IconProfile>
+        {!data ? (
+          <IconProfile to="/#">
+            <Profile />
+          </IconProfile>
+        ) : (
+          <IconProfile to={data.username}>
+            <Profile />
+          </IconProfile>
+        )}
       </Icons>
     </Container>
   );
