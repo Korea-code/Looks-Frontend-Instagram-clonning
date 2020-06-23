@@ -30,7 +30,7 @@ const Form = styled(Box)`
   margin-top: 25px;
   display: flex;
   flex-direction: column;
-  justify-contents: center;
+  justify-content: center;
   padding: 35px;
   width: 300px;
   min-height: 300px;

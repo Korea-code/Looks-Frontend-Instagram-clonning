@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Logo from "./Logo";
 const Loader = styled.div`
   margin-top: 30px;
   color: official;
