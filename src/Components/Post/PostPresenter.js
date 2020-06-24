@@ -203,7 +203,7 @@ export default ({
       </Files>
 
       <Meta>
-        {files.length > 1 && (
+        {files.length > 1 && currentFile != 0 && (
           <Before onClick={beforeButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -216,7 +216,7 @@ export default ({
             </svg>
           </Before>
         )}
-        {files.length > 1 && (
+        {files.length > 1 && currentFile != files.length - 1 && (
           <Next onClick={nextButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
