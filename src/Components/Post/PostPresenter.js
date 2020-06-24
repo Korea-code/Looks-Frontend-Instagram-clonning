@@ -124,6 +124,27 @@ const TimeStemp = styled.div`
   /* font-weight: 400; */
   color: ${props => props.theme.darkGreyColor};
 `;
+const Dots = styled.div`
+  display: flex;
+  position: absolute;
+  left: 50%;
+  top: 12px;
+`;
+const GreyDot = styled.div`
+  width: 6px;
+  height: 6px;
+  margin: 2px;
+  border-radius: 5px;
+  background-color: ${props => props.theme.darkGreyColor};
+`;
+const GreenDot = styled.div`
+  width: 6px;
+  height: 6px;
+  margin: 2px;
+  border-radius: 3px;
+
+  background-color: ${props => props.theme.darkGreenColor};
+`;
 const Comments = styled.div``;
 const Comment = styled.p``;
 
@@ -229,7 +250,12 @@ export default ({
             </svg>
           </Next>
         )}
-
+        <Dots>
+          {files.map((_, index) => {
+            if (currentFile === index) return <GreenDot />;
+            else return <GreyDot />;
+          })}
+        </Dots>
         <Buttons>
           <Button>
             {isLiked ? (
