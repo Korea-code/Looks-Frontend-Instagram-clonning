@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 const Text = styled.span`
   font-weight: 700;
+  user-select: none;
 `;
 
 const FatText = ({ text }) => <Text>{text}</Text>;

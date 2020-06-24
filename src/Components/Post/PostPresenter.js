@@ -17,6 +17,7 @@ const Post = styled.div`
   ${props => props.theme.whiteBox}
   width: 100%;
   max-width: 600px;
+  user-select: none;
 `;
 const Header = styled.header`
   height: 60px;
@@ -168,9 +169,11 @@ export default ({
   caption,
   createdAt,
   currentFile,
-  setCurrentFile
+  setCurrentFile,
+  toggleLike
 }) => {
   // file changer button
+  // I need to seperate this code from presenter
   const file_component = useRef();
   const beforeButton = () => {
     setCurrentFile(currentFile === 0 ? 0 : currentFile - 1);
@@ -209,7 +212,7 @@ export default ({
       requestAnimationFrame(scrollTo);
     }
   }, [currentFile]);
-
+  // file changer button end
   return (
     <Post>
       <Header>
@@ -257,7 +260,7 @@ export default ({
           })}
         </Dots>
         <Buttons>
-          <Button>
+          <Button onClick={toggleLike}>
             {isLiked ? (
               <HeartFullIcon size={33} />
             ) : (
