@@ -5,6 +5,7 @@ import useInput from "../../Hooks/useInput";
 import PostPresenter from "./PostPresenter";
 import { TOGGLE_LIKE, ADD_COMMENT } from "./PostQueries";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 const PostContainer = ({
   id,
@@ -63,7 +64,7 @@ const PostContainer = ({
       likeCount={likeCount_S}
       isLiked={isLiked_S}
       comments={comments}
-      createdAt={createdAt}
+      createdAt={moment(createdAt).fromNow()}
       location={location}
       newComment={comment}
       setIsLiked={setIsLiked}
