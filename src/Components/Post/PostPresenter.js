@@ -55,7 +55,7 @@ const File = styled.img`
 `;
 const Next = styled.button`
   position: absolute;
-  bottom: 200px;
+  top: -200px;
   right: 20px;
   opacity: 0.3;
   height: 50px;
@@ -73,7 +73,7 @@ const Next = styled.button`
 `;
 const Before = styled.button`
   position: absolute;
-  bottom: 200px;
+  top: -200px;
   left: 10px;
   opacity: 0.3;
   width: 50px;
