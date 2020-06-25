@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import useInput from "../../Hooks/useInput";
 import PostPresenter from "./PostPresenter";
 import { TOGGLE_LIKE, ADD_COMMENT } from "./PostQueries";
+import { toast } from "react-toastify";
 
 const PostContainer = ({
   id,
@@ -20,6 +21,7 @@ const PostContainer = ({
   const [isLiked_S, setIsLiked] = useState(isLiked);
   const [likeCount_S, setLikeCount] = useState(likeCount);
   const [currentFile, setCurrentFile] = useState(0);
+  const [selfComments, setSelfComments] = useState([]);
   const comment = useInput("");
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
     variables: { postId: id }
@@ -38,13 +40,20 @@ const PostContainer = ({
     toggleLikeMutation();
   };
 
-  const onKeyUp = async e => {
-    const { keyCode } = e;
-    if (keyCode === 13) {
+  const onKeyPress = async e => {
+    const { which } = e;
+    if (which === 13) {
       // means enter
-      await addCommentMutation().then(() => {
-        comment.setValue("");
-      });
+      e.preventDefault();
+      comment.setValue("");
+      try {
+        const {
+          data: { addComment }
+        } = await addCommentMutation();
+        setSelfComments([...selfComments, addComment]);
+      } catch {
+        toast.error("Comment isn't sent");
+      }
     }
   };
   return (
@@ -63,7 +72,8 @@ const PostContainer = ({
       currentFile={currentFile}
       setCurrentFile={setCurrentFile}
       toggleLike={toggleLike}
-      onKeyUp={onKeyUp}
+      onKeyPress={onKeyPress}
+      selfComments={selfComments}
     />
   );
 };

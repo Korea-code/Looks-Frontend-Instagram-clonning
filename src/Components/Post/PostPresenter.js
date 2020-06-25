@@ -146,10 +146,10 @@ const GreenDot = styled.div`
 
   background-color: ${props => props.theme.darkGreenColor};
 `;
-const Comments = styled.div`
+const Comments = styled.ul`
   margin: 10px 15px;
 `;
-const Comment = styled.p`
+const Comment = styled.li`
   margin: 5px 0;
 `;
 
@@ -175,9 +175,10 @@ export default ({
   currentFile,
   setCurrentFile,
   toggleLike,
-  onKeyUp,
+  onKeyPress,
   newComment,
-  comments
+  comments,
+  selfComments
 }) => {
   // file changer button
   // I need to seperate this code from presenter
@@ -292,23 +293,35 @@ export default ({
           {caption}
         </Content>
         <TimeStemp>{createdAt}</TimeStemp>
-        <Comments>
-          {comments.map(comment => {
-            return (
-              <Comment>
-                <FatText text={`${comment.user.username} `} />
-                {comment.text}
-              </Comment>
-            );
-          })}
-        </Comments>
+        {comments && (
+          <Comments>
+            {comments &&
+              comments.map(comment => {
+                return (
+                  <Comment>
+                    <FatText text={`${comment.user.username} `} />
+                    {comment.text}
+                  </Comment>
+                );
+              })}
+            {selfComments &&
+              selfComments.map(comment => {
+                return (
+                  <Comment>
+                    <FatText text={`${comment.user.username} `} />
+                    {comment.text}
+                  </Comment>
+                );
+              })}
+          </Comments>
+        )}
       </Meta>
 
       <Textarea
         placeholder={"Add a comment..."}
         value={newComment.value}
         onChange={newComment.onChange}
-        onKeyUp={onKeyUp}
+        onKeyPress={onKeyPress}
       />
     </Post>
   );
