@@ -52,23 +52,50 @@ export default ({
       <Logo text={"LUCKLE"} />
       {action === "logIn" && (
         <form onSubmit={onSubmit}>
-          <Input placeholder={"Email"} {...loginEmail} type={"email"} />
+          <Input
+            placeholder={"Email"}
+            value={loginEmail.value}
+            onChange={loginEmail.onChange}
+            type={"email"}
+          />
           <Botton text={"LogIn"} type={"submit"} />
         </form>
       )}
       {action === "signUp" && (
         <form onSubmit={onSubmit}>
-          <Input placeholder={"Email"} {...email} type={"email"} />
-          <Input placeholder={"Username"} {...username} />
-          <Input placeholder={"First name"} {...firstName} />
-          <Input placeholder={"Last name"} {...lastName} />
+          <Input
+            placeholder={"Email"}
+            value={email.value}
+            onChange={email.onChange}
+            type={"email"}
+          />
+          <Input
+            placeholder={"Username"}
+            value={username.value}
+            onChange={username.onChange}
+          />
+          <Input
+            placeholder={"First name"}
+            value={firstName.value}
+            onChange={firstName.onChange}
+          />
+          <Input
+            placeholder={"Last name"}
+            value={lastName.value}
+            onChange={lastName.onChange}
+          />
 
           <Botton text={"Sign Up"} type={"submit"} />
         </form>
       )}
       {action === "confirm" && (
         <form onSubmit={onSubmit}>
-          <Input placeholder={"Paste your secret"} required {...secret} />
+          <Input
+            placeholder={"Paste your secret"}
+            required
+            value={secret.value}
+            onChange={secret.onChange}
+          />
           <Botton text={"Confirm"} type={"submit"} />
         </form>
       )}

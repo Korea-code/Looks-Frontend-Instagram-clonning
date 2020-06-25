@@ -24,9 +24,9 @@ const PostContainer = ({
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
     variables: { postId: id }
   });
-  //   const addCommentMutation = useMutation(ADD_COMMENT, {
-  //     variables: { postId: id, text: comment.value }
-  //   });
+  const [addCommentMutation] = useMutation(ADD_COMMENT, {
+    variables: { postId: id, text: comment.value }
+  });
   const toggleLike = () => {
     if (isLiked_S) {
       setIsLiked(false);
@@ -36,6 +36,16 @@ const PostContainer = ({
       setLikeCount(likeCount_S + 1);
     }
     toggleLikeMutation();
+  };
+
+  const onKeyUp = async e => {
+    const { keyCode } = e;
+    if (keyCode === 13) {
+      // means enter
+      await addCommentMutation().then(() => {
+        comment.setValue("");
+      });
+    }
   };
   return (
     <PostPresenter
@@ -53,6 +63,7 @@ const PostContainer = ({
       currentFile={currentFile}
       setCurrentFile={setCurrentFile}
       toggleLike={toggleLike}
+      onKeyUp={onKeyUp}
     />
   );
 };

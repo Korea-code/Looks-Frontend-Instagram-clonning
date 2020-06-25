@@ -146,8 +146,12 @@ const GreenDot = styled.div`
 
   background-color: ${props => props.theme.darkGreenColor};
 `;
-const Comments = styled.div``;
-const Comment = styled.p``;
+const Comments = styled.div`
+  margin: 10px 15px;
+`;
+const Comment = styled.p`
+  margin: 5px 0;
+`;
 
 const Textarea = styled(TextareaAutosize)`
   width: 100%;
@@ -170,7 +174,10 @@ export default ({
   createdAt,
   currentFile,
   setCurrentFile,
-  toggleLike
+  toggleLike,
+  onKeyUp,
+  newComment,
+  comments
 }) => {
   // file changer button
   // I need to seperate this code from presenter
@@ -285,8 +292,24 @@ export default ({
           {caption}
         </Content>
         <TimeStemp>{createdAt}</TimeStemp>
+        <Comments>
+          {comments.map(comment => {
+            return (
+              <Comment>
+                <FatText text={`${comment.user.username} `} />
+                {comment.text}
+              </Comment>
+            );
+          })}
+        </Comments>
       </Meta>
-      <Textarea placeholder={"Add a comment..."} />
+
+      <Textarea
+        placeholder={"Add a comment..."}
+        value={newComment.value}
+        onChange={newComment.onChange}
+        onKeyUp={onKeyUp}
+      />
     </Post>
   );
 };
