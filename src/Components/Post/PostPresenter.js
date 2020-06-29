@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import FatText from "../FatText";
 import Avatar from "../Avatar";
 import TextareaAutosize from "react-autosize-textarea";
@@ -28,10 +29,11 @@ const Header = styled.header`
   padding-left: 15px;
 `;
 
-const UserColumn = styled.div`
+const UserColumn = styled(Link)`
   display: flex;
   flex-direction: column;
   margin: 0 15px;
+  color: ${props => props.theme.blackColor};
 `;
 
 const Location = styled.div`
@@ -224,8 +226,10 @@ export default ({
   return (
     <Post>
       <Header>
-        <Avatar url={avatar} />
-        <UserColumn>
+        <Link to={`/${username}`}>
+          <Avatar url={avatar} />
+        </Link>
+        <UserColumn to={`/${username}`}>
           <FatText text={username} />
           {location && <Location>{location}</Location>}
         </UserColumn>
