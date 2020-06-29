@@ -16,8 +16,10 @@ const UserSection = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   justify-content: centser;
+  margin: 20px 0;
 `;
 const PostSection = styled.div`
+  margin: 20px 0;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
