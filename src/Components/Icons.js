@@ -65,7 +65,28 @@ export const HeartFullIcon = ({ size }) => (
     <path d="M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.096-4.373 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z" />
   </svg>
 );
-
+export const WhiteHeartIcon = ({ size }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={`${size}`}
+    height={`${size}`}
+    fill="#FFFFFF"
+    viewBox={`0 -8 ${size} ${size + 5}`}
+  >
+    <path d="M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.096-4.373 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z" />
+  </svg>
+);
+export const WhiteCommentIcon = ({ size }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={`${size}`}
+    height={`${size}`}
+    fill="#FFFFFF"
+    viewBox={`0 -8 ${size} ${size + 5}`}
+  >
+    <path d="M12 1c-6.628 0-12 4.573-12 10.213 0 2.39.932 4.591 2.427 6.164l-2.427 5.623 7.563-2.26c9.495 2.598 16.437-3.251 16.437-9.527 0-5.64-5.372-10.213-12-10.213z" />
+  </svg>
+);
 export const CommentIcon = ({ size }) => (
   <svg
     width={`${size}`}

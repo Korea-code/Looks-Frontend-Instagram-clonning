@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
 import FatText from "./FatText";
-import Button from "./Button";
+import FollowButton from "./FollowButton";
 
 const Card = styled.div`
   width: 170px;
@@ -21,16 +21,17 @@ const Card = styled.div`
 const E_Link = styled(Link)`
   color: inherit;
 `;
-const UserCard = ({ username, isFollowing, url, isSelf }) => (
+const UserCard = ({ username, isFollowing, url, isSelf, id }) => (
   <Card>
     <Avatar size={"md"} url={url} />
     <E_Link to={`/${username}`}>
       <FatText text={username} />
     </E_Link>
-    {!isSelf && <Button text={isFollowing ? "Unfollow" : "Follow"} />}
+    {!isSelf && <FollowButton id={id} isFollowing={isFollowing} />}
   </Card>
 );
 UserCard.propTypes = {
+  id: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   isFollowing: PropTypes.bool.isRequired,
   url: PropTypes.string.isRequired,
