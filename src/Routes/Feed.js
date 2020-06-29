@@ -77,7 +77,7 @@ export default () => {
               caption={post.caption}
             />
           ))}
-        <Temp />
+        <Temp> Space for the detailed search</Temp>
       </Wrapper>
     </>
   );

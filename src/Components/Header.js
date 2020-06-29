@@ -145,11 +145,12 @@ const Header = ({ history }) => {
         <IconNotification to="/notification">
           <NotificationIcon size={ICON_SIZE} />
         </IconNotification>
-        {loading ? (
+        {loading && (
           <IconProfile to="/#">
             <Profile />
           </IconProfile>
-        ) : (
+        )}
+        {!loading && data && data.myProfile && (
           <IconProfile to={data.myProfile.username}>
             <Profile bg={data.myProfile.avatar} />
           </IconProfile>

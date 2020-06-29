@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { gql } from "apollo-boost";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery, useMutation } from "react-apollo-hooks";
 import { withRouter, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Loader from "../Components/Loader";
@@ -9,6 +9,7 @@ import Avatar from "../Components/Avatar";
 import FatText from "../Components/FatText";
 import SquarePost from "../Components/SquarePost";
 import FollowButton from "../Components/FollowButton";
+import Button from "../Components/Button";
 
 const GET_USER = gql`
   query seeUser($username: String!) {
@@ -32,6 +33,12 @@ const GET_USER = gql`
         commentCount
       }
     }
+  }
+`;
+
+const LOCAL_LOG_OUT = gql`
+  mutation logUserOut {
+    logUserOut @client
   }
 `;
 
@@ -114,7 +121,7 @@ const Profile = ({ history: { location } }) => {
   const username = location.pathname.split("/")[1];
 
   const { data, loading } = useQuery(GET_USER, { variables: { username } });
-  console.log(data);
+  const [logOut] = useMutation(LOCAL_LOG_OUT);
   return (
     <>
       <Helmet>
@@ -130,7 +137,10 @@ const Profile = ({ history: { location } }) => {
               <UserData>
                 <Username>{data.seeUser.username}</Username>
                 {data.seeUser.isSelf ? (
-                  <EditProfile to={"/editProfile"}>Edit Profile</EditProfile>
+                  <>
+                    <EditProfile to={"/editProfile"}>Edit Profile</EditProfile>
+                    <Button onClick={logOut} text={"Log Out"} />
+                  </>
                 ) : (
                   <FollowButton_Edited
                     id={data.seeUser.id}
