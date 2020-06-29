@@ -6,7 +6,7 @@ import { useQuery } from "react-apollo-hooks";
 import useInput from "../Hooks/useInput";
 import { FeedIcon, DMIcon, ExploreIcon, NotificationIcon } from "./Icons";
 
-const ICON_SIZE = 22;
+const ICON_SIZE = 24;
 
 const Container = styled.div`
   width: 100%;
@@ -16,6 +16,11 @@ const Container = styled.div`
   padding: 9px 20px;
   background-color: white;
   border-bottom: ${props => props.theme.boxBorder};
+  @media (max-width: 760px) {
+    & form {
+      display: none;
+    }
+  }
 `;
 
 const Logo = styled.div`
@@ -24,7 +29,7 @@ const Logo = styled.div`
   font-weight: 600;
   font-family: ${props => props.theme.logoFont};
   margin-bottom: 52px;
-  min-width: 240px;
+  min-width: 200px;
   color: ${props => props.theme.blackColor};
 `;
 const SearchBar = styled.form`
@@ -81,21 +86,27 @@ const Profile = styled.div`
   width: ${ICON_SIZE}px;
   height: ${ICON_SIZE}px;
   border-radius: 16px;
-  border: 2px solid ${props => props.theme.blackColor};
+  border: ${props => props.theme.boxBorder};
   margin-bottom: 3px;
+  background-image: url(${props => props.bg});
+  background-position: center;
+  background-size: cover;
 `;
 
 const ME = gql`
   query {
     myProfile {
       username
+      avatar
     }
   }
 `;
 
 const Header = ({ history }) => {
   const search = useInput("");
-  const { data } = useQuery(ME);
+  const { data, loading } = useQuery(ME);
+  console.log(data);
+
   const onSearchSubmit = e => {
     e.preventDefault();
     if (search.value === undefined || search.value === "")
@@ -135,13 +146,13 @@ const Header = ({ history }) => {
         <IconNotification to="/notification">
           <NotificationIcon size={ICON_SIZE} />
         </IconNotification>
-        {!data ? (
+        {loading ? (
           <IconProfile to="/#">
             <Profile />
           </IconProfile>
         ) : (
-          <IconProfile to={data.username}>
-            <Profile />
+          <IconProfile to={data.myProfile.username}>
+            <Profile bg={data.myProfile.avatar} />
           </IconProfile>
         )}
       </Icons>
