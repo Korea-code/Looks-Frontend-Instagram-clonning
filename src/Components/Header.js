@@ -98,7 +98,9 @@ const Header = ({ history }) => {
   const { data } = useQuery(ME);
   const onSearchSubmit = e => {
     e.preventDefault();
-    history.push(`/search?term=${search.value}`);
+    if (search.value === undefined || search.value === "")
+      history.push("/search");
+    else history.push(`/search?term=${search.value}`);
   };
   return (
     <Container>

@@ -12,6 +12,7 @@ const Container = styled.button`
   margin-top: 18px;
   display: block;
   width: 100%;
+  cursor: pointer;
 `;
 
 const Button = ({ text }) => <Container>{text}</Container>;

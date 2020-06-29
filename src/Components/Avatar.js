@@ -14,9 +14,7 @@ const setSize = size => {
 };
 
 const Container = styled.div`
-  /* ${props => setSize(props.size)} */
-  width: 30px;
-height: 30px;
+  ${props => setSize(props.size)}
   border: ${props => props.theme.borderBox};
   background-image: url(${props => props.url});
   background-size: cover;
