@@ -3,10 +3,12 @@ import styled from "styled-components";
 import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
 import { withRouter, Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import Loader from "../Components/Loader";
 import Avatar from "../Components/Avatar";
 import FatText from "../Components/FatText";
 import SquarePost from "../Components/SquarePost";
+import FollowButton from "../Components/FollowButton";
 
 const GET_USER = gql`
   query seeUser($username: String!) {
@@ -20,6 +22,7 @@ const GET_USER = gql`
       postCount
       followingCount
       followersCount
+      bio
       posts {
         id
         files {
@@ -42,7 +45,7 @@ const UserInfo = styled.div`
   ${props => props.theme.whiteBox}
   width: 100%;
   margin: 30px 0;
-  padding: 30px;
+  padding: 50px;
   display: flex;
 `;
 
@@ -60,7 +63,15 @@ const PostSection = styled.div`
 const UserData = styled.div`
   margin-left: 70px;
   text-align: left;
-  width: 65%;
+  width: 60%;
+  button {
+    margin: 9px;
+    display: inline-block;
+    width: 120px;
+    height: 30px;
+    font-size: 16px;
+    padding: 6px;
+  }
 `;
 const Username = styled.p`
   font-size: 45px;
@@ -69,7 +80,7 @@ const Username = styled.p`
   float: left;
 `;
 const UserDetails = styled.div`
-  height: 33%;
+  height: 45px;
   padding: 15px;
   display: flex;
 `;
@@ -88,10 +99,15 @@ const EditProfile = styled(Link)`
   text-align: center;
   ${props => props.theme.whiteBox}
 `;
-const FullName = styled.div`
+
+const FollowButton_Edited = styled(FollowButton)``;
+const UserProfile = styled.div`
   display: block;
-  height: 33%;
+  min-height: 33%;
   padding: 15px;
+  div {
+    margin-top: 10px;
+  }
 `;
 
 const Profile = ({ history: { location } }) => {
@@ -100,45 +116,64 @@ const Profile = ({ history: { location } }) => {
   const { data, loading } = useQuery(GET_USER, { variables: { username } });
   console.log(data);
   return (
-    <Wrapper>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <UserInfo>
-            <Avatar size="lg" url={data.seeUser.avatar} />
-            <UserData>
-              <Username>{data.seeUser.username}</Username>
-              <EditProfile to={"/editProfile"}>Edit Profile</EditProfile>
-              <UserDetails>
-                <UserDetail>{data.seeUser.postCount} posts</UserDetail>
-                <UserDetail>{data.seeUser.followersCount} followers</UserDetail>
-                <UserDetail>{data.seeUser.followingCount} following</UserDetail>
-              </UserDetails>
-              <FullName>{data.seeUser.fullName}</FullName>
-            </UserData>
-          </UserInfo>
-          <PostSection>
-            {data.seeUser.posts.length !== 0 ? (
-              data.seeUser.posts.map(post => (
-                <SquarePost
-                  key={post.id}
-                  id={post.id}
-                  likeCount={post.likeCount}
-                  commentCount={post.commentCount}
-                  file={post.files[0].url}
-                />
-              ))
-            ) : (
-              <>
-                <div></div> {/* for align center */}
-                <FatText text={"No Posts"}></FatText>
-              </>
-            )}
-          </PostSection>
-        </>
-      )}
-    </Wrapper>
+    <>
+      <Helmet>
+        <title>LUCKLE {username}</title>
+      </Helmet>
+      <Wrapper>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <UserInfo>
+              <Avatar size="lg" url={data.seeUser.avatar} />
+              <UserData>
+                <Username>{data.seeUser.username}</Username>
+                {data.seeUser.isSelf ? (
+                  <EditProfile to={"/editProfile"}>Edit Profile</EditProfile>
+                ) : (
+                  <FollowButton_Edited
+                    id={data.seeUser.id}
+                    isFollowing={data.seeUser.isFollowing}
+                  />
+                )}
+                <UserDetails>
+                  <UserDetail>{data.seeUser.postCount} posts</UserDetail>
+                  <UserDetail>
+                    {data.seeUser.followersCount} followers
+                  </UserDetail>
+                  <UserDetail>
+                    {data.seeUser.followingCount} following
+                  </UserDetail>
+                </UserDetails>
+                <UserProfile>
+                  <FatText text={data.seeUser.fullName}></FatText>
+                  {data.seeUser.bio && <div>{data.seeUser.bio}</div>}
+                </UserProfile>
+              </UserData>
+            </UserInfo>
+            <PostSection>
+              {data.seeUser.posts.length !== 0 ? (
+                data.seeUser.posts.map(post => (
+                  <SquarePost
+                    key={post.id}
+                    id={post.id}
+                    likeCount={post.likeCount}
+                    commentCount={post.commentCount}
+                    file={post.files[0].url}
+                  />
+                ))
+              ) : (
+                <>
+                  <div></div> {/* for align center */}
+                  <FatText text={"No Posts"}></FatText>
+                </>
+              )}
+            </PostSection>
+          </>
+        )}
+      </Wrapper>
+    </>
   );
 };
 
