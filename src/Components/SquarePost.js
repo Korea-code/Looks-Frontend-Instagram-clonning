@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { WhiteHeartIcon, WhiteCommentIcon } from "./Icons";
-import FatText from "./FatText";
 
 const Container = styled.div`
   background-image: url(${props => props.file});
@@ -20,7 +20,7 @@ const Container = styled.div`
 const Overlayer = styled.div`
   position: absolute;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   top: 0;
   left: 0;
@@ -28,13 +28,15 @@ const Overlayer = styled.div`
   height: 100%;
   opacity: 0;
   background-color: rgba(9, 9, 9, 0.3);
+  transition: opacity 0.2s linear;
+  cursor: pointer;
   :hover {
     opacity: 100;
   }
 `;
 
 const Number = styled.div`
-  width: 50%;
+  min-width: 30%;
   padding-top: 10px;
 `;
 
@@ -46,19 +48,21 @@ const NumberText = styled.span`
   opacity: 100;
 `;
 
-const SquarePost = ({ likeCount, commentCount, file }) => (
-  <Container file={file}>
-    <Overlayer>
-      <Number>
-        <WhiteHeartIcon size={28} />
-        <NumberText>{likeCount}</NumberText>
-      </Number>
-      <Number>
-        <WhiteCommentIcon size={28} />
-        <NumberText>{commentCount}</NumberText>
-      </Number>
-    </Overlayer>
-  </Container>
+const SquarePost = ({ likeCount, commentCount, file, id }) => (
+  <Link to={`/post/${id}`}>
+    <Container file={file}>
+      <Overlayer>
+        <Number>
+          <WhiteHeartIcon size={28} />
+          <NumberText>{likeCount}</NumberText>
+        </Number>
+        <Number>
+          <WhiteCommentIcon size={28} />
+          <NumberText>{commentCount}</NumberText>
+        </Number>
+      </Overlayer>
+    </Container>
+  </Link>
 );
 
 SquarePost.propTypes = {
