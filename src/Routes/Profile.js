@@ -1,1 +1,145 @@
-export default () => "Profile";
+import React from "react";
+import styled from "styled-components";
+import { gql } from "apollo-boost";
+import { useQuery } from "react-apollo-hooks";
+import { withRouter, Link } from "react-router-dom";
+import Loader from "../Components/Loader";
+import Avatar from "../Components/Avatar";
+import FatText from "../Components/FatText";
+import SquarePost from "../Components/SquarePost";
+
+const GET_USER = gql`
+  query seeUser($username: String!) {
+    seeUser(username: $username) {
+      id
+      username
+      avatar
+      fullName
+      isSelf
+      isFollowing
+      postCount
+      followingCount
+      followersCount
+      posts {
+        id
+        files {
+          url
+        }
+        likeCount
+        commentCount
+      }
+    }
+  }
+`;
+
+const Wrapper = styled.div`
+  width: 90%;
+  min-height: 60vh;
+  text-align: center;
+`;
+
+const UserInfo = styled.div`
+  ${props => props.theme.whiteBox}
+  width: 100%;
+  margin: 30px 0;
+  padding: 30px;
+  display: flex;
+`;
+
+const PostSection = styled.div`
+  margin: 20px 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  justify-content: centser;
+  & div {
+    border-radius: ${props => props.theme.borderRadius};
+  }
+`;
+const UserData = styled.div`
+  margin-left: 70px;
+  text-align: left;
+  width: 65%;
+`;
+const Username = styled.p`
+  font-size: 45px;
+  font-weight: 300;
+  margin-right: 30px;
+  float: left;
+`;
+const UserDetails = styled.div`
+  height: 33%;
+  padding: 15px;
+  display: flex;
+`;
+const UserDetail = styled.div`
+  margin-right: 25px;
+  font-size: 18px;
+`;
+const EditProfile = styled(Link)`
+  margin: 9px;
+  display: inline-block;
+  width: 120px;
+  height: 28px;
+  color: black;
+  font-size: 16px;
+  padding: 6px;
+  text-align: center;
+  ${props => props.theme.whiteBox}
+`;
+const FullName = styled.div`
+  display: block;
+  height: 33%;
+  padding: 15px;
+`;
+
+const Profile = ({ history: { location } }) => {
+  const username = location.pathname.split("/")[1];
+
+  const { data, loading } = useQuery(GET_USER, { variables: { username } });
+  console.log(data);
+  return (
+    <Wrapper>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <UserInfo>
+            <Avatar size="lg" url={data.seeUser.avatar} />
+            <UserData>
+              <Username>{data.seeUser.username}</Username>
+              <EditProfile to={"/editProfile"}>Edit Profile</EditProfile>
+              <UserDetails>
+                <UserDetail>{data.seeUser.postCount} posts</UserDetail>
+                <UserDetail>{data.seeUser.followersCount} followers</UserDetail>
+                <UserDetail>{data.seeUser.followingCount} following</UserDetail>
+              </UserDetails>
+              <FullName>{data.seeUser.fullName}</FullName>
+            </UserData>
+          </UserInfo>
+          <PostSection>
+            {data.seeUser.posts.length !== 0 ? (
+              data.seeUser.posts.map(post => (
+                <SquarePost
+                  key={post.id}
+                  id={post.id}
+                  likeCount={post.likeCount}
+                  commentCount={post.commentCount}
+                  file={post.files[0].url}
+                />
+              ))
+            ) : (
+              <>
+                <div></div> {/* for align center */}
+                <FatText text={"No Posts"}></FatText>
+              </>
+            )}
+          </PostSection>
+        </>
+      )}
+    </Wrapper>
+  );
+};
+
+export default withRouter(Profile);

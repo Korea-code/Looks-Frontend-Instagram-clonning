@@ -105,7 +105,6 @@ const ME = gql`
 const Header = ({ history }) => {
   const search = useInput("");
   const { data, loading } = useQuery(ME);
-  console.log(data);
 
   const onSearchSubmit = e => {
     e.preventDefault();
