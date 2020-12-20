@@ -1,4 +1,4 @@
-# Luckle Frontend (Instagram clonning)
+# Looks Frontend (Instagram clonning)
 
 ## Project Objectives
 
